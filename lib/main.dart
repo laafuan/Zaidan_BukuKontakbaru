@@ -56,6 +56,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+
+    // --- TAMBAHKAN KODE INI UNTUK TUGAS 3 ---
+    _daftarKontak.add(
+      Kontak(
+        nama: 'Aldejan Kovic Putra Sulash', 
+        email: 'alde@gmail.com',            
+        telepon: '08123456789',             
+        favorit: true, // Nilai ini wajib 'true' agar langsung masuk ke Tab Favorit
+      ),
+    );
+    // ----------------------------------------
   }
 
   @override
