@@ -30,12 +30,14 @@ class Kontak {
   String nama;
   String email;
   String telepon;
+  String? kategori;
   bool favorit;
 
   Kontak({
     required this.nama,
     required this.email,
     required this.telepon,
+    this.kategori,
     this.favorit = false,
   });
 }
@@ -57,17 +59,6 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-
-    // --- TAMBAHKAN KODE INI UNTUK TUGAS 3 ---
-    _daftarKontak.add(
-      Kontak(
-        nama: 'Aldejan Kovic Putra Sulash', 
-        email: 'alde@gmail.com',            
-        telepon: '08123456789',             
-        favorit: true, // Nilai ini wajib 'true' agar langsung masuk ke Tab Favorit
-      ),
-    );
-    // ----------------------------------------
   }
 
   @override
@@ -177,7 +168,9 @@ class _HomePageState extends State<HomePage>
           title:
               Text(kontak.nama, style: const TextStyle(fontWeight: FontWeight.w600)),
           subtitle: Text(
-              '${kontak.telepon}${kontak.email.isNotEmpty ? ' | ${kontak.email}' : ''}'),
+              '${kontak.telepon}${kontak.email.isNotEmpty ? ' | ${kontak.email}' : ''}\n'
+              'Kategori: ${kontak.kategori ?? 'Tanpa kategori'}'),
+          isThreeLine: true,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -273,21 +266,25 @@ class _TambahKontakPageState extends State<TambahKontakPage> {
   final _namaController = TextEditingController();
   final _emailController = TextEditingController();
   final _teleponController = TextEditingController();
+  final _kategoriController = TextEditingController();
 
   @override
   void dispose() {
     _namaController.dispose();
     _emailController.dispose();
     _teleponController.dispose();
+    _kategoriController.dispose();
     super.dispose();
   }
 
   void _simpanKontak() {
     if (_formKey.currentState!.validate()) {
+      final kategoriInput = _kategoriController.text.trim();
       final kontakBaru = Kontak(
         nama: _namaController.text.trim(),
         email: _emailController.text.trim(),
         telepon: _teleponController.text.trim(),
+        kategori: kategoriInput.isEmpty ? null : kategoriInput,
       );
       // Mengirim data kembali ke HomePage
       Navigator.pop(context, kontakBaru);
@@ -361,8 +358,21 @@ class _TambahKontakPageState extends State<TambahKontakPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Nomor HP wajib diisi';
                   }
+                  final nomor = value.trim();
+                  if (!RegExp(r'^[0-9]+$').hasMatch(nomor)) {
+                    return 'Nomor HP hanya boleh berisi angka';
+                  }
+                  if (nomor.length < 10) {
+                    return 'Nomor HP minimal 10 digit';
+                  }
                   return null;
                 },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _kategoriController,
+                decoration: _underlineDecoration('Kategori (opsional)'),
+                // Tidak ada validator karena kategori boleh dikosongkan
               ),
               const SizedBox(height: 32),
               Center(
