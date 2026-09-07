@@ -48,7 +48,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final List<Kontak> _daftarKontak = [];
 
@@ -148,7 +149,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _buildDaftarKontak(List<Kontak> data, {required bool tampilkanHapus}) {
+  Widget _buildDaftarKontak(List<Kontak> data,
+      {required bool tampilkanHapus}) {
     if (data.isEmpty) {
       return const Center(
         child: Text(
@@ -172,8 +174,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               style: const TextStyle(color: Colors.white),
             ),
           ),
-          title: Text(kontak.nama, style: const TextStyle(fontWeight: FontWeight.w600)),
-          subtitle: Text('${kontak.telepon}${kontak.email.isNotEmpty ? ' | ${kontak.email}' : ''}'),
+          title:
+              Text(kontak.nama, style: const TextStyle(fontWeight: FontWeight.w600)),
+          subtitle: Text(
+              '${kontak.telepon}${kontak.email.isNotEmpty ? ' | ${kontak.email}' : ''}'),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -364,7 +368,8 @@ class _TambahKontakPageState extends State<TambahKontakPage> {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     backgroundColor: const Color(0xFFEDE7F6),
                     foregroundColor: const Color(0xFF5E35B1),
                     elevation: 0,
@@ -407,14 +412,13 @@ class TentangPage extends StatelessWidget {
             children: [
               // Foto profil bulat.
               // Ganti path di bawah dengan foto asli kamu (taruh di folder
-              // assets/images/ lalu daftarkan di pubspec.yaml).
+              // assets/images/ lalu daftarkan di pubspec.yaml), atau
+              // gunakan fallback Icon di bawah jika belum punya asset.
               const CircleAvatar(
                 radius: 55,
                 backgroundColor: Color(0xFFFFB74D),
-                backgroundImage: AssetImage('assets/images/profile.jpg'),
-                // Jika foto belum ada, tampilan akan error saat load asset.
-                // Sementara itu bisa pakai fallback di bawah ini:
-                // child: Icon(Icons.person, size: 55, color: Colors.white),
+                child: Icon(Icons.person, size: 55, color: Colors.white),
+                // backgroundImage: AssetImage('assets/images/profile.jpg'),
               ),
               const SizedBox(height: 20),
               const Text(
